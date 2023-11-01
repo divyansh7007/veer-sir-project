@@ -8,5 +8,4 @@ const databases = new sdk.Databases(client);
 const storage = new sdk.Storage(client);
 
 const def = { account, users, databases, storage }
-export { account, users, databases, storage }
 export default def;
