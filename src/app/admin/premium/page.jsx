@@ -98,7 +98,8 @@ function Page() {
       ) : (
         <div className="container px-5 py-24 mx-auto">
           <div className="lg:w-full w-full mx-auto overflow-auto">
-            <table className="table-auto w-full text-left whitespace-no-wrap">
+            {
+              users.length === 0 ? <div className="text-center text-blue-400 text-xl">No User Found!</div> : <table className="table-auto w-full text-left whitespace-no-wrap">
               <thead>
                 <tr>
                   <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">
@@ -163,10 +164,11 @@ function Page() {
                 })}
               </tbody>
             </table>
+            }
           </div>
         </div>
       )}
-      <div className="text-center flex items-center justify-center">
+      <div className="text-center flex items-center justify-center -z-10">
         <Link
           href={"/admin/panel"}
           className="text-blue-200 flex hover:text-blue-500 absolute top-24 right-28"
