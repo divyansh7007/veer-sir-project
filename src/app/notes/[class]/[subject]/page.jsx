@@ -106,8 +106,9 @@ function Page({ params }) {
         <div className="flex flex-wrap -m-4">
           {data.map(function (c) {
             return (
-              <Link
-                href={`/notes/${params.class}/${params.subject}/${c.$id}`}
+              <a
+                target="_blank"
+                href={`${c.pdfUrl}`}
                 key={c.$id}
                 className="p-4 md:w-1/3"
               >
@@ -133,7 +134,7 @@ function Page({ params }) {
                     <p className="leading-relaxed text-base">{c.chapterName}</p>
                   </div>
                 </div>
-              </Link>
+              </a>
             );
           })}
         </div>
