@@ -1,6 +1,6 @@
 import sdk from 'node-appwrite';
 
-const client = new sdk.Client().setEndpoint('https://cloud.appwrite.io/v1').setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID).setKey(process.env.API_KEY);
+const client = new sdk.Client().setEndpoint('https://cloud.appwrite.io/v1').setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID).setKey(process.env.API_KEY).setLocale('en');
 
 const account = new sdk.Account(client);
 const users = new sdk.Users(client);

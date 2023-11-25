@@ -27,7 +27,9 @@ function Page({ params }) {
         }
       ).then((r) => r.json());
       if (data.error === "Database not found") {
-        setFindError(true);
+        return setFindError(true);
+      }else if (data.error === "Document with the requested ID could not be found." ) {
+        return setFindError(true);
       }
       setData(data?.promise?.pdfUrl);
       setTotalResults(data?.promise?.total)
@@ -78,7 +80,7 @@ function Page({ params }) {
   }
 
   return (
-    <iframe src={data} className="h-screen w-screen"></iframe>
+    <iframe src={data} className="h-screen w-screen" />
   );
 }
 

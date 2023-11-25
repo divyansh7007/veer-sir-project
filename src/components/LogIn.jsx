@@ -21,6 +21,7 @@ import { login } from "@/utils/login";
 
 // userStore
 import { useUserStore } from '@/store/useUserStore';
+import InformationProvider from "./InformationProvider";
 
 const LogIn = () => {
   const { isLogin, setLogin, setEmail } = useUserStore((state) => state)
@@ -199,6 +200,9 @@ const LogIn = () => {
           </Link>
         </p>
       </div>
+
+      <InformationProvider />
+
     </div>
   );
 };
