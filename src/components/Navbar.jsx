@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { Fragment, useEffect, useState } from "react";
@@ -108,7 +109,7 @@ export default function Example() {
                 <Link href={"/"} className="flex flex-shrink-0 items-center">
                   <img
                     className="h-8 w-auto rounded-full"
-                    src="https://cloud.appwrite.io/v1/storage/buckets/6561ba5cf2ba2dbc3d32/files/6561ba8b37ce9ac55037/view?project=6540ae3adcb32868f4c2"
+                    src={process.env.NEXT_PUBLIC_LOGO}
                     alt="Your Company"
                   />
                 </Link>
