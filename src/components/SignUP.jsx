@@ -27,6 +27,7 @@ import { account, ID } from "@/appwrite/config";
 
 // zustand
 import { useUserStore } from "@/store/useUserStore";
+import InformationProvider from "./InformationProvider";
 
 const SignUp = () => {
   const { setLogin } = useUserStore((state) => state);
@@ -234,6 +235,7 @@ const SignUp = () => {
           </Link>
         </p>
       </div>
+      <InformationProvider />
     </div>
   );
 };

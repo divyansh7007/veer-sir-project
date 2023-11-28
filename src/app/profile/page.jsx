@@ -6,7 +6,8 @@ import { useState, useEffect } from "react";
 import { account } from "@/appwrite/config";
 
 import { ImSpinner9 } from "react-icons/im";
-import { FaPhoneAlt } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
+
 
 import { useUserStore } from "@/store/useUserStore";
 
@@ -24,7 +25,7 @@ const Page = () => {
 
   const router = useRouter();
 
-  const { isLogin } = useUserStore((state) => state);
+  const { isLogin, setLogin } = useUserStore((state) => state);
 
   const getUserData = async () => {
     try {
@@ -115,15 +116,32 @@ const Page = () => {
           number: enteredUserData.phone,
           id: enteredUserData.$id,
         }),
-      }).then(r => r.json());
+      }).then((r) => r.json());
       if (req.error) {
-        showToast(req.error)
+        showToast(req.error);
       }
       getUserData();
     } catch (error) {
       setLoading(false);
     }
   };
+
+  const deleteUserAccount = async (_id) => {
+    try {
+      setLoading(true);
+      const deleteAccount = await fetch('/api/user/deleteUser', {
+        method: 'POST',
+        body: JSON.stringify({_id}),
+      })
+      const removeSession = await account.deleteSession();
+      setLogin(false);
+      setLoading(false);
+      return router.refresh();
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  }
 
   return (
     <div className="w-screen items-center justify-center mt-5">
@@ -146,7 +164,7 @@ const Page = () => {
         />
       </div>
 
-      <div>
+      <div className="flex items-center justify-center flex-col space-y-5">
         <div className="flex items-center justify-center space-x-2 mt-5">
           <label
             htmlFor="userName"
@@ -261,44 +279,16 @@ const Page = () => {
             </button>
           )}
         </div>
-        <div className="flex items-center justify-center space-x-2 mt-5">
-          <label
-            htmlFor="phone"
-            className="block font-bold text-xl leading-6 text-gray-900"
-          >
-            Phone Number:
-          </label>
-          <div className="flex">
-            <span className="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
-              <FaPhoneAlt className="text-lg text-gray-500 dark:text-gray-400" />
-            </span>
-            <input
-              type="number"
-              id="phone"
-              className="rounded-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              value={enteredUserData.phone}
-              onChange={(e) =>
-                setEnteredUserData({
-                  ...enteredUserData,
-                  phone: e.target.value,
-                })
-              }
-            />
-          </div>
-          {userData.phone === enteredUserData.phone ? (
-            <></>
-          ) : (
-            <button
-              className="rounded-md px-3.5 py-2 m-1 overflow-hidden relative group cursor-pointer border-2 font-medium border-indigo-600 text-indigo-600 text-white"
-              onClick={() => updatePhoneNumber()}
-            >
-              <span className="absolute w-64 h-0 transition-all duration-300 origin-center rotate-45 -translate-x-20 bg-indigo-600 top-1/2 group-hover:h-64 group-hover:-translate-y-32 ease"></span>
-              <span className="relative text-indigo-600 transition duration-300 group-hover:text-white ease">
-                Update
-              </span>
-            </button>
-          )}
-        </div>
+        <button
+          onClick={() => deleteUserAccount(enteredUserData.$id)}
+          className="relative inline-flex items-center px-12 py-3 overflow-hidden text-lg font-medium text-indigo-600 border-2 border-indigo-600 rounded-full hover:text-white group hover:bg-gray-50"
+        >
+          <span className="absolute left-0 block w-full h-0 transition-all bg-indigo-600 opacity-100 group-hover:h-full top-1/2 group-hover:top-0 duration-400 ease"></span>
+          <span className="absolute right-0 flex items-center justify-start w-10 h-10 duration-300 transform translate-x-full group-hover:translate-x-0 ease">
+            <FaTrash className="text-base" />
+          </span>
+          <span className="relative">Delete The Account</span>
+        </button>
       </div>
     </div>
   );
